@@ -1,0 +1,27 @@
+.admin-block {
+  position: relative;
+}
+
+.content-wrapper {
+  position: relative;
+}
+
+.container-loading {
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  z-index: 10;
+  opacity: 0.8;
+  position: absolute;
+}
+
+.loading-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 11;
+}
+
+.error-page {
+  margin: 15% auto 0 auto;
+}
