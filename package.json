@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "admin-lte": "^2.3.11",
+    "admin-lte": "2.3.11",
     "axios": "^0.16.2",
     "bootstrap": "3",
     "bytes": "^2.5.0",
