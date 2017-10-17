@@ -1,7 +1,6 @@
-# PoC Web Application
-
+# react-firebase-chat
+Firebase chat example with react redux
 ## Requirements
-
 - Node >= 6.x
 
 ## Install
