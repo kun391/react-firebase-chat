@@ -11,7 +11,7 @@ export default class Layout extends Component {
   render() {
     return (
       <div className="admin-block">
-        <Header auth={this.props.auth} actions={this.props.actions} />
+        <Header auth={this.props.children.props.auth} actions={this.props.children.props.actions} />
         <Sidebar />
         { this.props.children }
       </div>

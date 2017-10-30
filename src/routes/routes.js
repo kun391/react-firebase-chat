@@ -1,7 +1,6 @@
 import {
   Login,
   NoMatch,
-  Vehicle,
   Chat,
   Contact,
 } from '../containers/pages';
@@ -10,7 +9,7 @@ import App from '../containers/App';
 const routes = [
   {
     component: App,
-    // requireLogin: '/login',
+    requireLogin: '/login',
     home: '/',
     routes: [
       {
@@ -22,11 +21,6 @@ const routes = [
         path: '/login',
         exact: true,
         component: Login
-      },
-      {
-        path: '/vehicles',
-        exact: true,
-        component: Vehicle
       },
       {
         path: '/contacts',

@@ -19,7 +19,9 @@ class LoginForm extends Component {
   state = {
     email: '',
     password: '',
-    submitting: false
+    submitting: false,
+    logged: false
+
   }
 
   handleChange = e => {
@@ -37,10 +39,13 @@ class LoginForm extends Component {
     }
 
     await this.setState({ submitting: true });
-    await setTimeout(() => {
-      this.setState({ submitting: false });
-    }, 5000);
 
+    this.props.actions.authLogin({email: this.state.email, password: this.state.password}).then(async (res) => {
+      if (res.payload && res.payload.status === 200) {
+        await this.props.actions.userLogged(res.payload.data.data.id);
+        this.setState({logged: true, submitting: false });
+      }
+    })
   }
 
   render() {
@@ -70,7 +75,7 @@ class LoginForm extends Component {
             </LaddaButton>
           </div>
         </div>
-        { this.state.login && <Redirect to="/" /> }
+        { this.state.logged && <Redirect to="/" /> }
       </form>
     );
   };

@@ -4,11 +4,14 @@ import { LoginForm } from '../../components/auth';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as AuthActions from '../../actions';
+import { Redirect } from 'react-router-dom';
+
 import "./assets/login.css";
 
 class Login extends Component {
 
   static propTypes = {
+    auth: PropTypes.object.isRequired,
     actions: PropTypes.object.isRequired
   };
 
@@ -20,8 +23,13 @@ class Login extends Component {
   render() {
     return (
       <div className="login-box">
+        {
+          this.props.auth.user && (
+            <Redirect to={{ pathname: '/'}} />
+          )
+        }
         <div className="login-logo">
-          <p><b>Admin</b>Luxe</p>
+          <p><b>Admin</b>LUXE</p>
         </div>
         <div className="login-box-body">
           <p className="login-box-msg">Sign in to start your session</p>
@@ -32,11 +40,17 @@ class Login extends Component {
   };
 };
 
+const mapStateToProps = state => ({
+  auth: {
+    ...state.auth
+  }
+});
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(AuthActions, dispatch)
 });
 
 export default connect(
+  mapStateToProps,
   mapDispatchToProps
 )(Login);

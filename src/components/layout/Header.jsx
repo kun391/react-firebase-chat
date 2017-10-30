@@ -6,8 +6,8 @@ import AvatarDefault from 'admin-lte/dist/img/user2-160x160.jpg';
 
 export default class Header extends Component {
   static propTypes = {
-    auth: PropTypes.object,
-    actions: PropTypes.object
+    auth: PropTypes.object.isRequired,
+    actions: PropTypes.object.isRequired
   };
 
   constructor(props) {
@@ -43,14 +43,15 @@ export default class Header extends Component {
 
   handleLogout = async(e) => {
     e.preventDefault();
+    await this.props.actions.authLogout()
   }
 
   render() {
     return (
       <header className="main-header">
         <a role="button" className="logo">
-          <span className="logo-mini"><b>L</b>uxe</span>
-          <span className="logo-lg"><b>Admin</b>Luxe</span>
+          <span className="logo-mini"><b>L</b>UXE</span>
+          <span className="logo-lg"><b>Admin</b>LUXE</span>
         </a>
 
         <nav className="navbar navbar-static-top">
@@ -62,14 +63,13 @@ export default class Header extends Component {
               <li className="dropdown user user-menu">
                 <a role="button" className="dropdown-toggle" data-toggle="dropdown">
                   <img src={AvatarDefault} className="user-image" alt="User" />
-                  <span className="hidden-xs">Admin Luxe</span>
+                  <span className="hidden-xs">{this.props.auth.user && `${this.props.auth.user.first_name} ${this.props.auth.user.last_name}`}</span>
                 </a>
                 <ul className="dropdown-menu">
                   <li className="user-header">
                     <img src={AvatarDefault} className="img-circle" alt="User" />
                     <p>
-                      Admin Luxe
-                      <small>Member since Nov. 2012</small>
+                      {this.props.auth.user && `${this.props.auth.user.first_name} ${this.props.auth.user.last_name}`}
                     </p>
                   </li>
                   <li className="user-footer">
