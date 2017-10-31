@@ -10,8 +10,9 @@ import 'react-bootstrap-daterangepicker/css/daterangepicker.css'
 
 class ChatScreen extends Component {
   static propTypes = {
-    vehicle: PropTypes.object,
-    attributes: PropTypes.array
+    auth: PropTypes.object.isRequired,
+    attributes: PropTypes.array,
+    room_id: PropTypes.string.isRequired
   }
 
   constructor (props) {
@@ -22,11 +23,25 @@ class ChatScreen extends Component {
 
   state = {
     messages: [],
-    message: ''
+    message: '',
+    smartReply: false
+  }
+
+  componentWillReceiveProps = (nextProps) => {
+    if (nextProps.room_id !== this.props.room_id) {
+      this.setState({ messages: [] }, async () => {
+        let messagesRef = await Fire.database().ref('messages').orderByChild("room_id").equalTo(this.props.room_id).limitToLast(100);
+        messagesRef.on('child_added', async (snapshot) => {
+          let message = { message: snapshot.val(), key: snapshot.key };
+          let messages = _.concat(this.state.messages, message)
+          this.setState({ messages: messages });
+        })
+      });
+    }
   }
 
   componentWillMount = async () => {
-    let messagesRef = await Fire.database().ref('messages').limitToLast(100);
+    let messagesRef = await Fire.database().ref('messages').orderByChild("room_id").equalTo(this.props.room_id).limitToLast(100);
     messagesRef.on('child_added', async (snapshot) => {
       let message = { message: snapshot.val(), key: snapshot.key };
       let messages = _.concat(this.state.messages, message)
@@ -56,9 +71,11 @@ class ChatScreen extends Component {
     const message = {
       _id: uuid(),
       text: this.state.message,
-      user: {_id: '3rtb30fgn30fgn3', name: 'Admin'},
+      sender: { _id: this.props.auth.user.uid, name: this.props.auth.user.full_name},
       createdAt: firebase.database.ServerValue.TIMESTAMP,
-      user_id: 'hidfh3e394ut2w2jkdj',
+      sender_id: this.props.auth.user.uid,
+      room_id: this.props.room_id,
+      smart_reply: this.state.smartReply
     }
     await Fire.database().ref('messages').push(message)
     this.setState({ message: ''})
@@ -81,7 +98,7 @@ class ChatScreen extends Component {
             { messages ? messages.map((item, i) => {
               return (<div className="direct-chat-msg" ref={item.message._id} key={i}>
                 <div className="direct-chat-info clearfix">
-                  <span className="direct-chat-name pull-left">{item.message.user.name}</span>
+                  <span className="direct-chat-name pull-left">{item.message.sender.name}</span>
                   <span className="direct-chat-timestamp pull-right">{moment(item.message.createdAt).format('LLL')}</span>
                 </div>
                 <div className="direct-chat-text">
@@ -96,7 +113,7 @@ class ChatScreen extends Component {
           <form onSubmit={this.handleSend}>
             <div className="input-group">
               <input type="text" name="message" onChange={this.handleChange} placeholder="Type Message ..." className="form-control" value={this.state.message}/>
-              <DateRangePicker startDate={moment('1/1/2014')} endDate={moment('3/1/2014')} drops="up" opens="left" timePicker>
+              <DateRangePicker startDate={moment(new Date())} endDate={moment(new Date())} drops="up" opens="left" timePicker>
                 <span className="input-group-addon">
                   <i className="fa fa-calendar-check-o"></i>
                 </span>
@@ -106,8 +123,8 @@ class ChatScreen extends Component {
                   <span className="fa fa-caret-down"></span>
                 </button>
                 <ul className="dropdown-menu">
-                  <li><a href="#">Clean house</a></li>
-                  <li><a href="#">Wash for pet</a></li>
+                  <li><a >Clean house</a></li>
+                  <li><a >Wash for pet</a></li>
                 </ul>
               </span>
               <span className="input-group-btn">

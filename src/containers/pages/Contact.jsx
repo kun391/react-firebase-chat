@@ -15,7 +15,7 @@ class Contact extends React.Component {
 
   render() {
     return (
-      <Layout children={<ListContact auth={this.props.auth} actions={this.props.actions} />} />
+      <Layout children={<ListContact auth={this.props.auth} actions={this.props.actions} contacts={this.props.contacts}/>} />
     );
   };
 };
@@ -23,7 +23,8 @@ class Contact extends React.Component {
 const mapStateToProps = state => ({
   auth: {
     ...state.auth
-  }
+  },
+  contacts: state.users.contacts
 });
 
 const mapDispatchToProps = dispatch => ({

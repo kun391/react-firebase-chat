@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
 import LaddaButton, { XS, EXPAND_RIGHT } from 'react-ladda';
+import Fire from '../../libraries/Fire'
 import "ladda/dist/ladda.min.css";
 import "./assets/login.css";
 
@@ -42,8 +43,16 @@ class LoginForm extends Component {
 
     this.props.actions.authLogin({email: this.state.email, password: this.state.password}).then(async (res) => {
       if (res.payload && res.payload.status === 200) {
+        await Fire.auth().signInWithCustomToken(res.payload.data.data.accessToken).then((res) => {
+          this.props.actions.setToken(res.ra.Ja);
+        }).catch(function (error) {
+          this.setState({ submitting: false });          
+        });
         await this.props.actions.userLogged(res.payload.data.data.id);
-        this.setState({logged: true, submitting: false });
+        this.setState({ logged: true, submitting: false });
+        
+      } else {
+        this.setState({ submitting: false });
       }
     })
   }

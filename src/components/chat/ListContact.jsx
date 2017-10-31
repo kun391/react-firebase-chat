@@ -1,13 +1,23 @@
 import React, { Component } from 'react';
 import PageTitle from '../PageTitle';
 import Contact from './Contact';
+import PropTypes from 'prop-types';
 import "./assets/contact-list.css";
 
 
 class ListContact extends Component {
 
-  state = {
-    showLoading: true
+  static propTypes = {
+    contacts: PropTypes.array.isRequired,
+    actions: PropTypes.object.isRequired
+  }
+
+  static defaultProps = {
+    contacts: []
+  }
+
+  componentWillMount = () => {
+    this.props.actions.getContacts();
   }
 
   render() {
@@ -17,7 +27,7 @@ class ListContact extends Component {
         <session className="content">
           <div>
             <div className="box">
-              <Contact />
+              <Contact contacts={this.props.contacts}/>
             </div>
           </div>
         </session>

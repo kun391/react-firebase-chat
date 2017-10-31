@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 class Contact extends Component {
   static propTypes = {
-    vehicle: PropTypes.object,
+    contacts: PropTypes.array.isRequired,
     attributes: PropTypes.array
   }
 
@@ -15,33 +15,20 @@ class Contact extends Component {
           <h3 className="box-title">Contacts</h3>
         </div>
         <ul className="contacts-list">
-          <li>
-            <Link to={'/chat/1'}>
-              <div className="contacts-list-info">
-                <span className="contacts-list-name">
-                  <small className="contacts-list-date pull-left">Alexander Pierce</small>
-                </span>
-              </div>
-            </Link>
-          </li>
-          <li>
-            <Link to={'/chat/2'}>
-              <div className="contacts-list-info">
-                <span className="contacts-list-name">
-                  <small className="contacts-list-date pull-left">Pierce</small>
-                </span>
-              </div>
-            </Link>
-          </li>
-          <li>
-            <Link to={'/chat/3'}>
-              <div className="contacts-list-info">
-                <span className="contacts-list-name">
-                  <small className="contacts-list-date pull-left">Alexander</small>
-                </span>
-              </div>
-            </Link>
-          </li>
+          {
+            this.props.contacts && this.props.contacts.map((contact, i) =>
+              (<li key={ i } >
+              <Link to={`/chat/${contact.uid}`}>
+                <div className="contacts-list-info">
+                  <span className="contacts-list-name">
+                      <small className="contacts-list-date pull-left">{contact.full_name}</small>
+                  </span>
+                </div>
+              </Link>
+            </li>)
+            )
+          }
+          
         </ul>
       </div>
     );

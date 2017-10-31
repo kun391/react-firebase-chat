@@ -1,6 +1,8 @@
 import firebase from 'firebase'
 
-var config = { /* COPY THE ACTUAL CONFIG FROM FIREBASE CONSOLE */
+var config = {
+  apiKey: "AIzaSyBxahwUBrv0zBnGH5ni1E5ZI0MJuCezsvM",
+  authDomain: "luxe-dev-88038.firebaseapp.com",
   databaseURL: "https://luxe-dev-88038.firebaseio.com/",
 };
 

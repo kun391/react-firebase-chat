@@ -33,14 +33,6 @@ const RenderRoutes = ({ routes, auth, preload }) => {
                 }}/>
               )
             }
-            {
-              auth.user && (
-                <Redirect to={{
-                  pathname: route.home,
-                  state: { from: route.path }
-                }}/>
-              )
-            }
           </div>
         )}/>
       ))}

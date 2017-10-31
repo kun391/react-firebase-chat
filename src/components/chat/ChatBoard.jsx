@@ -2,13 +2,27 @@ import React, { Component } from 'react';
 import PageTitle from '../PageTitle';
 import ChatScreen from './ChatScreen';
 import Contact from './Contact';
+import PropTypes from 'prop-types';
 import "./assets/contact-list.css";
 
 
 class ChatBoard extends Component {
 
-  state = {
-    showLoading: true
+  static propTypes = {
+    contacts: PropTypes.array.isRequired,
+    actions: PropTypes.object.isRequired,
+    auth: PropTypes.object.isRequired,
+    room_id: PropTypes.string.isRequired
+  }
+
+  static defaultProps = {
+    contacts: []
+  }
+
+  componentWillMount = () => {
+    if (this.props.contacts.length === 0) {
+      this.props.actions.getContacts();
+    }
   }
 
   render() {
@@ -20,10 +34,10 @@ class ChatBoard extends Component {
             <div className="box">
               <div className="row">
                 <div className="col-md-9">
-                  <ChatScreen />
+                  <ChatScreen auth={this.props.auth} actions={this.props.actions} room_id={this.props.room_id} />
                 </div>
                 <div className="col-md-3">
-                  <Contact />
+                  <Contact contacts={this.props.contacts} />
                 </div>
               </div>
             </div>
