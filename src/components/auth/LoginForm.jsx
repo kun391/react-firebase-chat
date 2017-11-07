@@ -46,11 +46,11 @@ class LoginForm extends Component {
         await Fire.auth().signInWithCustomToken(res.payload.data.data.accessToken).then((res) => {
           this.props.actions.setToken(res.ra.Ja);
         }).catch(function (error) {
-          this.setState({ submitting: false });          
+          this.setState({ submitting: false });
         });
         await this.props.actions.userLogged(res.payload.data.data.id);
         this.setState({ logged: true, submitting: false });
-        
+
       } else {
         this.setState({ submitting: false });
       }

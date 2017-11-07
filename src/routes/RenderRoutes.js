@@ -24,7 +24,6 @@ const RenderRoutes = ({ routes, auth, preload }) => {
       {routes.map((route, i) => (
         <Route key={i} path={route.path} exact={route.exact} strict={route.strict} render={(props) => (
           <div>
-            <route.component {...props} route={route}/>
             {
               route.requireLogin && !auth.user && (
                 <Redirect to={{
@@ -33,6 +32,7 @@ const RenderRoutes = ({ routes, auth, preload }) => {
                 }}/>
               )
             }
+            <route.component {...props} route={route}/>
           </div>
         )}/>
       ))}

@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Layout } from '../../components/layout';
 import { ChatBoard } from '../../components/chat';
+import _ from 'lodash'
 import * as Actions from '../../actions';
 
 
@@ -13,11 +14,28 @@ class Chat extends React.Component {
     actions: PropTypes.object.isRequired
   };
 
-  render() {
+  state = {
+    targetUser: {},
+    contacts: []
+  }
+
+  render () {
+    const userId = this.props.auth.user ? this.props.auth.user.id : null
+    const roomId = this.getRoomId(this.props.match.params.id, userId)
+    const id = parseInt(this.props.match.params.id, 10)
+    const targetUser = _.find(this.props.contacts, { 'id': id })
+
     return (
-      <Layout children={<ChatBoard room_id={this.props.match.params.id} auth={this.props.auth} actions={this.props.actions} contacts={this.props.contacts}/>} />
+      <Layout children={<ChatBoard targetUser={targetUser} targetUserId={this.props.match.params.id} room_id={roomId} auth={this.props.auth} actions={this.props.actions} contacts={this.props.contacts}/>} />
     );
   };
+
+  getRoomId = (aid, bid) => {
+    if (aid > bid) {
+      return `${aid}-${bid}` 
+    }
+    return `${bid}-${aid}`
+  }
 };
 
 const mapStateToProps = state => ({

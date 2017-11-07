@@ -28,7 +28,7 @@ const routes = [
         component: Contact
       },
       {
-        path: '/chat/:id',
+        path: '/conversation/:id',
         exact: true,
         component: Chat
       },

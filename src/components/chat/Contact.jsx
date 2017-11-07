@@ -18,10 +18,10 @@ class Contact extends Component {
           {
             this.props.contacts && this.props.contacts.map((contact, i) =>
               (<li key={ i } >
-              <Link to={`/chat/${contact.uid}`}>
+                <Link to={`/conversation/${contact.id}`}>
                 <div className="contacts-list-info">
                   <span className="contacts-list-name">
-                      <small className="contacts-list-date pull-left">{contact.full_name}</small>
+                      <small className="contacts-list-date pull-left">{`${contact.full_name} ${contact.address ? " - " + contact.address : ''}`}</small>
                   </span>
                 </div>
               </Link>

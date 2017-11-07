@@ -1,9 +1,10 @@
-import React, { Component } from 'react';
-import PageTitle from '../PageTitle';
-import ChatScreen from './ChatScreen';
-import Contact from './Contact';
-import PropTypes from 'prop-types';
-import "./assets/contact-list.css";
+import React, { Component } from 'react'
+import PageTitle from '../PageTitle'
+import ChatScreen from './ChatScreen'
+import Contact from './Contact'
+import PropTypes from 'prop-types'
+import _ from 'lodash'
+import "./assets/contact-list.css"
 
 
 class ChatBoard extends Component {
@@ -12,16 +13,22 @@ class ChatBoard extends Component {
     contacts: PropTypes.array.isRequired,
     actions: PropTypes.object.isRequired,
     auth: PropTypes.object.isRequired,
+    targetUserId: PropTypes.string.isRequired,
+    targetUser: PropTypes.object.isRequired,
     room_id: PropTypes.string.isRequired
   }
 
   static defaultProps = {
-    contacts: []
+    contacts: [],
+    targetUser: {}
   }
 
-  componentWillMount = () => {
+  componentWillMount = async () => {
     if (this.props.contacts.length === 0) {
-      this.props.actions.getContacts();
+      await this.props.actions.getContacts();
+    }
+    if (!this.props.targetUser) {
+      this.props.targetUser = await _.find(this.props.contacts, (o) => { return o.id < this.props.targetUserId })
     }
   }
 
@@ -34,7 +41,7 @@ class ChatBoard extends Component {
             <div className="box">
               <div className="row">
                 <div className="col-md-9">
-                  <ChatScreen auth={this.props.auth} actions={this.props.actions} room_id={this.props.room_id} />
+                  <ChatScreen auth={this.props.auth} actions={this.props.actions} room_id={this.props.room_id} targetUserId={this.props.targetUserId} targetUser={this.props.targetUser}/>
                 </div>
                 <div className="col-md-3">
                   <Contact contacts={this.props.contacts} />
