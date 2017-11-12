@@ -9,6 +9,7 @@ import Modal from 'react-responsive-modal'
 import BigCalendar from 'react-big-calendar'
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 import NotificationSystem from 'react-notification-system'
+import './assets/calendar.css'
 
 
 class ChatScreen extends Component {
@@ -134,7 +135,7 @@ class ChatScreen extends Component {
   }
 
   handleSelecteEvent = (event) => {
-    this.setState({ confirm: true, start_at: event.start })
+    this.setState({ confirm: true, start_at: moment(event.start).utc() })
   }
 
   handleSend = async (e) => {
@@ -202,21 +203,23 @@ class ChatScreen extends Component {
           'title': 'Can booking',
           'allDay': false
         }
-        const time = new Date()
-        time.setHours(serviceTimes[i].time, 0, 0, 0)
+        const time = moment().utc()
+        time.set('hour', serviceTimes[i].time)
+        time.set('minute', 0)
+        time.set('second', 0)
         if (day === 0 && serviceTimes[i].time < prepareTime) {
           continue
         } else if (day === 0) {
-          event.start = time
-          event.end = time
+          event.start = time.toDate()
+          event.end = time.toDate()
         } else if (day > 0) {
-          time.setDate(time.getDate() + day)
-          event.start = time
-          event.end = time
+          time.add(day, 'd')
+          event.start = time.toDate()
+          event.end = time.toDate()
         } else {
-          time.setDate(time.getDate() + (day + 7))
-          event.start = time
-          event.end = time
+          time.add(day + 7, 'd')
+          event.start = time.toDate()
+          event.end = time.toDate()
         }
         results = results.concat(event)
       }
@@ -228,20 +231,18 @@ class ChatScreen extends Component {
           'title': 'Can booking',
           'allDay': false
         }
-        const time = new Date()
-        time.setHours(serviceTimes[i].time, 0, 0, 0)
+        const time = moment().utc()
+        time.set('hour', serviceTimes[i].time)
+        time.set('minute', 0)
+        time.set('second', 0)
         if (day === 0) {
-          time.setDate(time.getDate() + 7 * week)
-          event.start = time
-          event.end = time
-        } else if (day > 0) {
-          time.setDate(time.getDate() + (day + 7 * week))
-          event.start = time
-          event.end = time
+          time.add(7 * week, 'd')
+          event.start = time.toDate()
+          event.end = time.toDate()
         } else {
-          time.setDate(time.getDate() + (day + 7 + 7 * week))
-          event.start = time
-          event.end = time
+          time.add(day + 7 * week, 'd')
+          event.start = time.toDate()
+          event.end = time.toDate()
         }
         results = results.concat(event)
       }
@@ -271,6 +272,7 @@ class ChatScreen extends Component {
           <BigCalendar
             {...this.props}
             events={this.state.events}
+            allDayAccessor="false"
             views={{
               week: true
             }}

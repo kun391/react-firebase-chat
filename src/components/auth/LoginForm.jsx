@@ -34,7 +34,7 @@ class LoginForm extends Component {
 
   handleSubmit = async(e) => {
     e.preventDefault();
-
+    const _this = this
     if (this.state.submitting) {
       return;
     }
@@ -45,12 +45,11 @@ class LoginForm extends Component {
       if (res.payload && res.payload.status === 200) {
         await Fire.auth().signInWithCustomToken(res.payload.data.data.accessToken).then((res) => {
           this.props.actions.setToken(res.ra.Ja);
-        }).catch(function (error) {
-          this.setState({ submitting: false });
+        }).catch((error) => {
+          _this.setState({ submitting: false });
         });
         await this.props.actions.userLogged(res.payload.data.data.id);
         this.setState({ logged: true, submitting: false });
-
       } else {
         this.setState({ submitting: false });
       }
