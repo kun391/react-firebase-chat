@@ -204,12 +204,15 @@ class ChatScreen extends Component {
           'allDay': false
         }
         const time = moment().utc()
-        time.set('hour', serviceTimes[i].time)
-        time.set('minute', 0)
+        time.set('hour', serviceTimes[i].hour)
+        time.set('minute', serviceTimes[i].min)
         time.set('second', 0)
-        if (day === 0 && serviceTimes[i].time < prepareTime) {
+        if (day === 0 && serviceTimes[i].hour < prepareTime) {
           continue
         } else if (day === 0) {
+          if (serviceTimes[i].hour === prepareTime && serviceTimes[i].min > currentMins) {
+            continue
+          }
           event.start = time.toDate()
           event.end = time.toDate()
         } else if (day > 0) {
@@ -232,8 +235,8 @@ class ChatScreen extends Component {
           'allDay': false
         }
         const time = moment().utc()
-        time.set('hour', serviceTimes[i].time)
-        time.set('minute', 0)
+        time.set('hour', serviceTimes[i].hour)
+        time.set('minute', serviceTimes[i].min)
         time.set('second', 0)
         if (day === 0) {
           time.add(7 * week, 'd')
