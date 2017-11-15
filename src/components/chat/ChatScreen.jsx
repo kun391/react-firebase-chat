@@ -135,7 +135,7 @@ class ChatScreen extends Component {
   }
 
   handleSelecteEvent = (event) => {
-    this.setState({ confirm: true, start_at: moment(event.start).utc() })
+    this.setState({ confirm: true, start_at: moment(event.start).utcOffset('-06:00') })
   }
 
   handleSend = async (e) => {
@@ -203,7 +203,7 @@ class ChatScreen extends Component {
           'title': 'Can booking',
           'allDay': false
         }
-        const time = moment().utc()
+        const time = moment().utcOffset('-06:00')
         time.set('hour', serviceTimes[i].hour)
         time.set('minute', serviceTimes[i].min)
         time.set('second', 0)
@@ -234,7 +234,7 @@ class ChatScreen extends Component {
           'title': 'Can booking',
           'allDay': false
         }
-        const time = moment().utc()
+        const time = moment().utcOffset('-06:00')
         time.set('hour', serviceTimes[i].hour)
         time.set('minute', serviceTimes[i].min)
         time.set('second', 0)
