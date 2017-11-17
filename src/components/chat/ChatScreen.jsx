@@ -185,15 +185,15 @@ class ChatScreen extends Component {
       return
     }
 
-    const currentTime = new Date()
-    let currentHours = currentTime.getHours()
-    const currentMins = currentTime.getMinutes()
+    const currentTime = moment().utcOffset('-06:00')
+    let currentHours = currentTime.hours()
+    const currentMins = currentTime.minutes()
 
     if (currentMins > 1) {
       currentHours += 1
     }
 
-    const dayOfWeek = moment().utc().isoWeekday()
+    const dayOfWeek = moment().utcOffset('-06:00').isoWeekday()
     const prepareTime = currentHours + 4
     let results = []
     if (event === 'TODAY') {
