@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "admin-lte": "2.3.11",
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "bootstrap": "3",
     "bytes": "^2.5.0",
     "classnames": "^2.2.5",
