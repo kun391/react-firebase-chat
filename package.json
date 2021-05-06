@@ -34,7 +34,7 @@
     "redux": "^3.6.0",
     "redux-axios-middleware": "^4.0.0",
     "redux-thunk": "^2.2.0",
-    "sanitize-html": "^1.14.1",
+    "sanitize-html": "^2.3.2",
     "slug": "^0.9.1",
     "uuid": "^3.1.0"
   },
